@@ -255,11 +255,13 @@ function ProductList() {
         setShowCart(false);
     };
     const handleAddToCart = (product) => {
-        dispatch(addItem(product));
-        setAddedToCart((prevState) => ({
-            ...prevState, 
-            [product.name]: true
-        }));
+        if(!addedToCart[product.name]){
+            dispatch(addItem(product));
+            setAddedToCart((prevState) => ({
+                ...prevState, 
+                [product.name]: true
+            }));
+        }
     };
 
     return (
@@ -293,7 +295,7 @@ function ProductList() {
                                     <img className="product-image" src={plant.image} alt={plant.name} />
                                     <div className="product-price">{plant.cost}</div>
                                     <div className="product-description">{plant.description}</div>
-                                    <button className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                                    <button className={`product-button ${addedToCart[plant.name] ? 'added-to-cart' : ''}`} onClick={() => handleAddToCart(plant)}>{addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}</button>
                                 </div>
                             ))}
                         </div>
