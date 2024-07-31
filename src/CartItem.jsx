@@ -11,7 +11,7 @@ const CartItem = ({ onContinueShopping }) => {
     const calculateTotalAmount = () => {
         let totalCost = 0;
         cart.forEach((item) => {
-            totalCost += item.cost * item.quantity;
+            totalCost += parseInt(item.cost.split("$").pop()) * item.quantity;
         });
         return totalCost;
     };
@@ -31,14 +31,24 @@ const CartItem = ({ onContinueShopping }) => {
     };
 
     const handleDecrement = (item) => {
-    
+        const newQuantity = parseInt(item.quantity) - 1;
+        const existingItem = cart.find(plant => plant.name === item.name);
+        if(existingItem && newQuantity <= 0){
+            dispatch(removeItem(item.name));
+        } else {
+            dispatch(updateQuantity({ ...item, quantity: newQuantity }));
+        }
     };
 
     const handleRemove = (item) => {
+        dispatch(removeItem(item.name));
     };
 
     // Calculate total cost based on quantity for an item
     const calculateTotalCost = (item) => {
+        let totalCost = 0;
+        totalCost = parseInt(item.cost.split("$").pop()) * item.quantity;
+        return totalCost;
     };
 
     return (
