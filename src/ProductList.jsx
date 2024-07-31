@@ -263,6 +263,12 @@ function ProductList() {
             }));
         }
     };
+    const handleAddedToCartStatus = (product, value)  => {
+        setAddedToCart((prevState) => ({
+            ...prevState, 
+            [product.name]: value
+        }));
+    }
 
     return (
         <div>
@@ -303,7 +309,7 @@ function ProductList() {
                 ))}
             </div>
         ) :  (
-            <CartItem onContinueShopping={handleContinueShopping}/>
+            <CartItem onContinueShopping={handleContinueShopping} updateAddedToCart={handleAddedToCartStatus} />
         )}
         </div>
     );
